@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['user_name'] = $user['full_name'];
             $_SESSION['user_email'] = $user['email'];
             
-            redirect_to('attendees.php');
+            redirect_to('event_details.php');
         } else {
             $error_message = 'Invalid email or password.';
         }

@@ -33,6 +33,30 @@ CREATE TABLE attendees (
     FOREIGN KEY (event_id) REFERENCES events(id)
 );
 
+- Create Registered Users Table (merged users and attendees)
+CREATE TABLE registered_users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    event_id INT NOT NULL,
+    full_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    ticket_type ENUM('Standard', 'VIP') NOT NULL DEFAULT 'Standard',
+    dietary_requirements TEXT,
+    company_organization VARCHAR(150),
+    job_title VARCHAR(100),
+    how_did_you_hear VARCHAR(100),
+    special_accommodations TEXT,
+    newsletter_subscribe BOOLEAN DEFAULT FALSE,
+    terms_accepted BOOLEAN DEFAULT TRUE,
+    registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    registration_status ENUM('confirmed', 'pending', 'cancelled') DEFAULT 'confirmed',
+    payment_status ENUM('pending', 'paid', 'refunded') DEFAULT 'pending',
+    FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,
+    INDEX idx_email (email),
+    INDEX idx_event_id (event_id),
+    INDEX idx_confirmation_code (confirmation_code)
+);
+
 -- Insert Dummy Users (Login/Signup)
 INSERT INTO users (full_name, email, password) VALUES
 ('Admin User', 'admin@example.com', 'admin123'),
